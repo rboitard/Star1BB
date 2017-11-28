@@ -1,6 +1,7 @@
 package com.example.bah.horaires_de_bus;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -10,11 +11,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.bah.horaires_de_bus.dataBase.AsyncFileDownloader;
 import com.example.bah.horaires_de_bus.dataBase.db.DataBase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,5 +99,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.i(Tag,"response :"+URL);
+        AsyncFileDownloader downloader = new AsyncFileDownloader();
+        downloader.execute(URL);
     }
+
+
 }
