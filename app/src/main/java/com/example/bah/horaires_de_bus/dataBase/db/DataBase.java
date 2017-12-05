@@ -88,13 +88,6 @@ public class DataBase  extends SQLiteOpenHelper implements StarContract {
         db.insert(Stops.CONTENT_PATH,null, values);
     }
 
-
-    public static final String DATABASE_CREATE_TABLE_STOP_TIMES = "CREATE TABLE IF NOT EXISTS"+ StarContract.StopTimes.CONTENT_PATH +
-            "("+ StarContract.StopTimes.StopTimeColumns.TRIP_ID + " INTEGER NOT NULL PRIMARY KEY, "+
-            StarContract.StopTimes.StopTimeColumns.ARRIVAL_TIME+", TEXT"+
-            StarContract.StopTimes.StopTimeColumns.DEPARTURE_TIME+", TEXT "+
-            StarContract.StopTimes.StopTimeColumns.STOP_ID+", INTEGER"+
-            StarContract.StopTimes.StopTimeColumns.STOP_SEQUENCE+", TEXT );";
     public void insertStopTimes( StopeTimes stopTimes)
     {
         db = this.getWritableDatabase();

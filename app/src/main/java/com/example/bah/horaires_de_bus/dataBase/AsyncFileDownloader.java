@@ -3,7 +3,6 @@ package com.example.bah.horaires_de_bus.dataBase;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.util.Xml;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -17,7 +16,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -36,6 +34,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Void, String> {
     private String stops;
     private String stopeTimes;
     private String trips;
+    private String Tag = this.getClass().getName();
 
     @Override
     protected String doInBackground(String... params) {
@@ -77,10 +76,6 @@ public class AsyncFileDownloader extends AsyncTask<String, Void, String> {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(buffer.toByteArray());
             fos.close();
-
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -96,7 +91,9 @@ public class AsyncFileDownloader extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String message) {
-        System.out.println("done");
+        fileToString(routes);
+        Log.i(Tag,"test2");
+
     }
 
     public void unzip(String zipFile) throws IOException {
@@ -129,6 +126,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Void, String> {
                 this.trips = dir.getPath() + "/trips.txt";
                 System.out.println("done");
             }
+
         }
         catch (Exception e) {
             Log.e(TAG, "Unzip exception", e);
@@ -156,9 +154,19 @@ public class AsyncFileDownloader extends AsyncTask<String, Void, String> {
             String line;
 
             while ((line = br.readLine()) != null) {
-                //traitement de la ligne
+              //  Log.i(Tag,line);
+                String column ;
+                String result[] = line.split(",");
+                for (int i= 0; i<result.length; i++)
+                {
+                    column =result[i];
+                            Log.i(Tag,column.substring(1,column.length()-1)+"\n");
+
+                }
+
+                Log.i(Tag,"fin de ligne"+"\n");
             }
-            System.out.println("routes : " + text.toString());
+
             br.close();
         }
         catch (IOException e) {
