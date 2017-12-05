@@ -9,9 +9,9 @@ import android.provider.BaseColumns;
 
 public interface StarContract {
 
-     String AUTHORITY = "fr.istic.starproviderBB";
+    String AUTHORITY = "fr.istic.starproviderBB";
 
-      Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
+    Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
 
     interface BusRoutes {
         String CONTENT_PATH = "busroute";
