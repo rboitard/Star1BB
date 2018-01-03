@@ -1,10 +1,10 @@
-package com.example.bah.horaires_de_bus.dataBase.modelTables;
+package fr.istic.database.modelTables;
 
 /**
  * Created by Bah on 19/11/2017.
  */
 
-public class Stop {
+public class Stops {
 
 
 
@@ -13,13 +13,23 @@ public class Stop {
     private float latitude;
     private float longitude;
     private String wheelChairBoalding;
+    private int _ID ;
 
-    public Stop(String name, String description, float latitude, float longitude, String wheelChairBoalding) {
+    public Stops(String name, String description, float latitude, float longitude, String wheelChairBoalding) {
         this.name = name;
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
         this.wheelChairBoalding = wheelChairBoalding;
+    }
+
+    public Stops(int id, String name, String description, float latitude, float longitude, String wheelChairBoalding) {
+        this.name = name;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.wheelChairBoalding = wheelChairBoalding;
+        this._ID = id;
     }
 
     public String getName() {
@@ -70,6 +80,7 @@ public class Stop {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", wheelChairBoalding='" + wheelChairBoalding + '\'' +
+                ", _ID=" + _ID +
                 '}';
     }
 }

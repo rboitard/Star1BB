@@ -1,4 +1,4 @@
-package com.example.bah.horaires_de_bus.dataBase.modelTables;
+package fr.istic.database.modelTables;
 
 /**
  * Created by Bah on 18/11/2017.
@@ -12,6 +12,7 @@ public class BusRoute {
     private String type;
     private String color;
     private  String textColor;
+    private  int _ID;
 
     public BusRoute(String shortName, String longName, String description, String type, String color, String textColor) {
         this.shortName = shortName;
@@ -20,6 +21,24 @@ public class BusRoute {
         this.type = type;
         this.color = color;
         this.textColor = textColor;
+    }
+
+    public BusRoute(int id, String shortName, String longName, String description, String type, String color, String textColor) {
+        this.shortName = shortName;
+        this.longName = longName;
+        this.description = description;
+        this.type = type;
+        this.color = color;
+        this.textColor = textColor;
+        this._ID = id;
+    }
+
+    public int get_ID() {
+        return _ID;
+    }
+
+    public void set_ID(int _ID) {
+        this._ID = _ID;
     }
 
     public String getShortName() {
@@ -79,6 +98,7 @@ public class BusRoute {
                 ", type='" + type + '\'' +
                 ", color='" + color + '\'' +
                 ", textColor='" + textColor + '\'' +
+                ", _ID=" + _ID +
                 '}';
     }
 }

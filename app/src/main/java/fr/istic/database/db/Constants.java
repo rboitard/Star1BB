@@ -1,6 +1,7 @@
-package com.example.bah.horaires_de_bus.dataBase.db;
+package fr.istic.database.db;
 
-import com.example.bah.horaires_de_bus.contrat.StarContract;
+
+import fr.istic.contrat.StarContract;
 
 /**
  * Created by Bah on 18/11/2017.
@@ -8,8 +9,10 @@ import com.example.bah.horaires_de_bus.contrat.StarContract;
 
 public class Constants implements StarContract {
 
-    public static final String DATABASE_CREATE_TABLE_BUS_ROUTE = "CREATE TABLE IF NOT EXISTS "+ BusRoutes.CONTENT_PATH +
-            "("+BusRoutes.BusRouteColumns.SHORT_NAME + " TEXT NOT NULL PRIMARY KEY , "+
+    public static final String DATABASE_NAME ="bus_hours";
+    public static final String DATABASE_CREATE_TABLE_BUS_ROUTE = "CREATE TABLE IF NOT EXISTS "+ StarContract.BusRoutes.CONTENT_PATH +
+            "( _ID INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT , "+
+            BusRoutes.BusRouteColumns.SHORT_NAME + " TEXT , "+
             BusRoutes.BusRouteColumns.LONG_NAME+" TEXT, "+
             BusRoutes.BusRouteColumns.DESCRIPTION+" TEXT, "+
             BusRoutes.BusRouteColumns.TYPE+" TEXT,"+
@@ -17,7 +20,8 @@ public class Constants implements StarContract {
             BusRoutes.BusRouteColumns.TEXT_COLOR+" TEXT );";
 
     public static final String DATABASE_CREATE_TABLE_TIPS = "CREATE TABLE IF NOT EXISTS "+ Trips.CONTENT_PATH +
-            "("+Trips.TripColumns.ROUTE_ID+" INTEGER  NOT NULL PRIMARY KEY,"+
+            "( _ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT , "+
+            Trips.TripColumns.ROUTE_ID+" INTEGER ,"+
             Trips.TripColumns.SERVICE_ID+" INTEGER,"+
             Trips.TripColumns.HEADSIGN+" TEXT,"+
             Trips.TripColumns.DIRECTION_ID+" INTEGER,"+
@@ -26,7 +30,8 @@ public class Constants implements StarContract {
 
 
     public static final String DATABASE_CREATE_TABLE_STOPS = "CREATE TABLE IF NOT EXISTS "+ Stops.CONTENT_PATH +
-            "("+Stops.StopColumns.NAME + " TEXT NOT NULL PRIMARY KEY, "+
+            "( _ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "+
+            Stops.StopColumns.NAME + " TEXT , "+
             Stops.StopColumns.DESCRIPTION+" TEXT,"+
             Stops.StopColumns.LATITUDE+" INTEGER, "+
             Stops.StopColumns.LONGITUDE+" INTEGER,"+
@@ -34,14 +39,16 @@ public class Constants implements StarContract {
 
 
     public static final String DATABASE_CREATE_TABLE_STOP_TIMES = "CREATE TABLE IF NOT EXISTS "+ StarContract.StopTimes.CONTENT_PATH +
-            "("+ StarContract.StopTimes.StopTimeColumns.TRIP_ID + " INTEGER NOT NULL PRIMARY KEY,"+
+            "( _ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "+
+            StarContract.StopTimes.StopTimeColumns.TRIP_ID + " INTEGER ,"+
             StarContract.StopTimes.StopTimeColumns.ARRIVAL_TIME+" TEXT,"+
             StarContract.StopTimes.StopTimeColumns.DEPARTURE_TIME+" TEXT,"+
             StarContract.StopTimes.StopTimeColumns.STOP_ID+" INTEGER,"+
             StarContract.StopTimes.StopTimeColumns.STOP_SEQUENCE+" TEXT );";
 
     public static final String DATABASE_CREATE_TABLE_CALENDAR = "CREATE TABLE IF NOT EXISTS "+ Calendar.CONTENT_PATH +
-            "("+ Calendar.CalendarColumns.MONDAY + " TEXT , "+
+            "( _ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "+
+            Calendar.CalendarColumns.MONDAY + " TEXT , "+
             Calendar.CalendarColumns.TUESDAY+" TEXT,"+
             Calendar.CalendarColumns.WEDNESDAY+" TEXT,"+
             Calendar.CalendarColumns.THURSDAY+" TEXT,"+

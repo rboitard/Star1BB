@@ -1,4 +1,4 @@
-package com.example.bah.horaires_de_bus.dataBase.modelTables;
+package fr.istic.database.modelTables;
 
 /**
  * Created by Bah on 19/11/2017.
@@ -16,6 +16,7 @@ public class Calendar {
     private String sunday;
     private String startDate;
     private String endDate;
+    private int _ID;
 
     public Calendar(String monday, String tuesday, String wednesday, String thursday, String friday, String saturday, String sunday, String startDate, String endDate) {
         this.monday = monday;
@@ -27,6 +28,19 @@ public class Calendar {
         this.sunday = sunday;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public Calendar( int _ID, String monday, String tuesday, String wednesday, String thursday, String friday, String saturday, String sunday, String startDate, String endDate) {
+        this.monday = monday;
+        this.tuesday = tuesday;
+        this.wednesday = wednesday;
+        this.thursday = thursday;
+        this.friday = friday;
+        this.saturday = saturday;
+        this.sunday = sunday;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this._ID = _ID;
     }
 
     public String getMonday() {
@@ -101,6 +115,14 @@ public class Calendar {
         this.endDate = endDate;
     }
 
+    public int get_ID() {
+        return _ID;
+    }
+
+    public void set_ID(int _ID) {
+        this._ID = _ID;
+    }
+
     @Override
     public String toString() {
         return "Calendar{" +
@@ -113,6 +135,7 @@ public class Calendar {
                 ", sunday='" + sunday + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
+                ", _ID=" + _ID +
                 '}';
     }
 }

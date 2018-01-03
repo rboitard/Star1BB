@@ -1,5 +1,6 @@
-package com.example.bah.horaires_de_bus;
+package fr.istic;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -8,21 +9,27 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.bah.horaires_de_bus.dataBase.AsyncFileDownloader;
-import com.example.bah.horaires_de_bus.dataBase.db.DataBase;
+import com.example.bah.horairesDeBus.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.List;
+import fr.istic.Tools.AsyncFileDownloader;
+import fr.istic.Tools.MySingleton;
+import fr.istic.database.db.Database;
+import fr.istic.database.modelTables.BusRoute;
 
 public class MainActivity extends AppCompatActivity {
 
     private String Tag = this.getClass().getName();
+    private Context context = this;
+    private Database dataBase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DataBase dataBase = new DataBase(this);
+         dataBase = new Database(context);
         Log.i(Tag,dataBase.allTableNames().toString());
         String url = "https://data.explore.star.fr/explore/dataset/tco-busmetro-horaires-gtfs-versions-td/download/?format=json&timezone=Europe/Berlin";
 
@@ -65,9 +72,11 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        Log.i(Tag,"response :"+URL);
-        AsyncFileDownloader downloader = new AsyncFileDownloader();
+        AsyncFileDownloader downloader = new AsyncFileDownloader(context);
         downloader.execute(URL);
+        List<BusRoute> list = dataBase.getAllContentsBusRouteTable();
+        Log.i(Tag,"size "+list.size()+"\n");
+        Log.i(Tag,list.get(1).toString());
     }
 
 

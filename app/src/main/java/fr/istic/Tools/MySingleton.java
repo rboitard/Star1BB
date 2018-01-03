@@ -1,4 +1,4 @@
-package com.example.bah.horaires_de_bus;
+package fr.istic.Tools;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,7 +13,7 @@ import com.android.volley.toolbox.Volley;
  * Created by Bah on 21/11/2017.
  */
 
-class MySingleton {
+public class MySingleton {
 
     private static MySingleton mInstance;
     private RequestQueue mRequestQueue;

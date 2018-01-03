@@ -1,4 +1,4 @@
-package com.example.bah.horaires_de_bus.dataBase.modelTables;
+package fr.istic.database.modelTables;
 
 /**
  * Created by Bah on 18/11/2017.
@@ -12,14 +12,25 @@ public class Trips {
     private  int directionId;
     private int blockId;
     private String wheelchairAccessible;
+    private  int _ID;
 
-    public Trips(int routeId, int serviceId, String headSign, int directionId, int blockId, String wheelchairAccessible) {
+    public Trips( int routeId, int serviceId, String headSign, int directionId, int blockId, String wheelchairAccessible) {
         RouteId = routeId;
         this.serviceId = serviceId;
         this.headSign = headSign;
         this.directionId = directionId;
         this.blockId = blockId;
         this.wheelchairAccessible = wheelchairAccessible;
+    }
+
+    public Trips(int _ID, int routeId, int serviceId, String headSign, int directionId, int blockId, String wheelchairAccessible) {
+        RouteId = routeId;
+        this.serviceId = serviceId;
+        this.headSign = headSign;
+        this.directionId = directionId;
+        this.blockId = blockId;
+        this.wheelchairAccessible = wheelchairAccessible;
+        this._ID = _ID;
     }
 
     public int getRouteId() {
@@ -70,6 +81,14 @@ public class Trips {
         this.wheelchairAccessible = wheelchairAccessible;
     }
 
+    public int get_ID() {
+        return _ID;
+    }
+
+    public void set_ID(int _ID) {
+        this._ID = _ID;
+    }
+
     @Override
     public String toString() {
         return "Trips{" +
@@ -79,6 +98,7 @@ public class Trips {
                 ", directionId=" + directionId +
                 ", blockId=" + blockId +
                 ", wheelchairAccessible='" + wheelchairAccessible + '\'' +
+                ", _ID=" + _ID +
                 '}';
     }
 }

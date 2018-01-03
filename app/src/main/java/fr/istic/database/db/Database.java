@@ -1,4 +1,4 @@
-package com.example.bah.horaires_de_bus.dataBase.db;
+package fr.istic.database.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,27 +6,26 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.bah.horaires_de_bus.contrat.StarContract;
-import com.example.bah.horaires_de_bus.dataBase.modelTables.BusRoute;
-import com.example.bah.horaires_de_bus.dataBase.modelTables.Stop;
-import com.example.bah.horaires_de_bus.dataBase.modelTables.StopeTimes;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.istic.contrat.StarContract;
+import fr.istic.database.modelTables.BusRoute;
+
+import static fr.istic.database.db.Constants.DATABASE_NAME;
 
 /**
  * Created by Bah on 14/11/2017.
  */
 
-public class DataBase  extends SQLiteOpenHelper implements StarContract {
+public class Database extends SQLiteOpenHelper implements StarContract {
 
 
     private SQLiteDatabase db;
-    private static  String DATA_NAME ="bus_hours";
-    private static final int DATA_BASE_VERSION = 1;
+    private static final int DATA_BASE_VERSION = 4;
 
-    public DataBase(Context context) {
-        super(context, DATA_NAME, null, DATA_BASE_VERSION);
+    public Database(Context context) {
+        super(context, DATABASE_NAME, null, DATA_BASE_VERSION);
         db = getReadableDatabase();
     }
 
@@ -44,8 +43,8 @@ public class DataBase  extends SQLiteOpenHelper implements StarContract {
 
         db.execSQL("DROP TABLE IF EXISTS "+ BusRoutes.CONTENT_PATH);
         db.execSQL("DROP TABLE IF EXISTS "+ Trips.CONTENT_PATH);
-        db.execSQL("DROP TABLE IF EXISTS "+ Stops.CONTENT_PATH);
-        db.execSQL("DROP TABLE IF EXISTS "+ StopTimes.CONTENT_PATH);
+        db.execSQL("DROP TABLE IF EXISTS "+ StarContract.Stops.CONTENT_PATH);
+        db.execSQL("DROP TABLE IF EXISTS "+ StarContract.StopTimes.CONTENT_PATH);
         db.execSQL("DROP TABLE IF EXISTS "+ Calendar.CONTENT_PATH);
         onCreate(db);
     }
@@ -63,7 +62,7 @@ public class DataBase  extends SQLiteOpenHelper implements StarContract {
         db.insert(BusRoutes.CONTENT_PATH,null, values);
     }
 
-    public void insertTrips(com.example.bah.horaires_de_bus.dataBase.modelTables.Trips trips )
+    public void insertTrips(fr.istic.database.modelTables.Trips trips)
     {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -76,32 +75,32 @@ public class DataBase  extends SQLiteOpenHelper implements StarContract {
         db.insert(Trips.CONTENT_PATH,null, values);
     }
 
-    public void insertStops(Stop stop)
+    public void insertStops(fr.istic.database.modelTables.Stops stop)
     {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Stops.StopColumns.NAME, stop.getName());
-        values.put(Stops.StopColumns.DESCRIPTION, stop.getDescription());
-        values.put(Stops.StopColumns.LATITUDE, stop.getLatitude());
-        values.put(Stops.StopColumns.LONGITUDE, stop.getLongitude());
-        values.put(Stops.StopColumns.WHEELCHAIR_BOARDING, stop.getWheelChairBoalding());
-        db.insert(Stops.CONTENT_PATH,null, values);
+        values.put(StarContract.Stops.StopColumns.NAME, stop.getName());
+        values.put(StarContract.Stops.StopColumns.DESCRIPTION, stop.getDescription());
+        values.put(StarContract.Stops.StopColumns.LATITUDE, stop.getLatitude());
+        values.put(StarContract.Stops.StopColumns.LONGITUDE, stop.getLongitude());
+        values.put(StarContract.Stops.StopColumns.WHEELCHAIR_BOARDING, stop.getWheelChairBoalding());
+        db.insert(StarContract.Stops.CONTENT_PATH,null, values);
     }
 
-    public void insertStopTimes( StopeTimes stopTimes)
+    public void insertStopTimes( fr.istic.database.modelTables.StopTimes stopTimes)
     {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(StopTimes.StopTimeColumns.TRIP_ID, stopTimes.getTripId());
-        values.put(StopTimes.StopTimeColumns.ARRIVAL_TIME, stopTimes.getArrivalTime());
-        values.put(StopTimes.StopTimeColumns.DEPARTURE_TIME, stopTimes.getDepartureTme());
-        values.put(StopTimes.StopTimeColumns.STOP_ID, stopTimes.getStopId());
-        values.put(StopTimes.StopTimeColumns.STOP_SEQUENCE, stopTimes.getStopSequence());
-        db.insert(StopTimes.CONTENT_PATH,null,values);
+        values.put(StarContract.StopTimes.StopTimeColumns.TRIP_ID, stopTimes.getTripId());
+        values.put(StarContract.StopTimes.StopTimeColumns.ARRIVAL_TIME, stopTimes.getArrivalTime());
+        values.put(StarContract.StopTimes.StopTimeColumns.DEPARTURE_TIME, stopTimes.getDepartureTime());
+        values.put(StarContract.StopTimes.StopTimeColumns.STOP_ID, stopTimes.getStopId());
+        values.put(StarContract.StopTimes.StopTimeColumns.STOP_SEQUENCE, stopTimes.getStopSequence());
+        db.insert(StarContract.StopTimes.CONTENT_PATH,null,values);
 
     }
 
-    public void insertCalendar( com.example.bah.horaires_de_bus.dataBase.modelTables.Calendar calendar)
+    public void insertCalendar(fr.istic.database.modelTables.Calendar calendar)
     {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -117,6 +116,26 @@ public class DataBase  extends SQLiteOpenHelper implements StarContract {
         db.insert(Calendar.CONTENT_PATH,null,values);
     }
 
+    public  List<BusRoute> getAllContentsBusRouteTable()
+    {
+        String request =  " SELECT * FROM "+ BusRoutes.CONTENT_PATH;
+        List<BusRoute> list = new ArrayList<>();
+        Cursor  cursor = db.rawQuery(request,null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                BusRoute busRoute = new BusRoute(Integer.valueOf(cursor.getString(0)),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(5));
+                list.add(busRoute);
+                cursor.moveToNext();
+            }
+        }
+        return list;
+    }
     public List<String> allTableNames()
     {
         List<String> result = new ArrayList<String>();

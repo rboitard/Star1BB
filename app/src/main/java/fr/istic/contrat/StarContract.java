@@ -1,4 +1,4 @@
-package com.example.bah.horaires_de_bus.contrat;
+package fr.istic.contrat;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -104,8 +104,8 @@ public interface StarContract {
         Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
         // select stop.stop_name, stop_time.arrival_time
         String CONTENT_TYPE =
-                "vnd.android.cursor.dir/vnd.fr.istic.starproviderXY.routedetails";
+                "vnd.android.cursor.dir/vnd.fr.istic.starproviderBB.routedetails";
         String CONTENT_ITEM_TYPE =
-                "vnd.android.cursor.item/vnd.fr.istic.starproviderXY.routedetails";
+                "vnd.android.cursor.item/vnd.fr.istic.starproviderBB.routedetails";
     }
 }

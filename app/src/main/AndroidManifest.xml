@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bah.horaires_de_bus">
+    package="com.example.bah.horairesDeBus">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -11,12 +11,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="fr.istic.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <provider
+                android:name="fr.istic.starproviderBB.StarProvider"
+                android:authorities="fr.istic.starproviderBB"
+                android:enabled="true"
+                android:exported="true"
+                android:readPermission="fr.istic.starproviderBB.READ"
+                android:writePermission="fr.istic.starproviderBB.WRITE" >
+            </provider>
         </activity>
     </application>
 
