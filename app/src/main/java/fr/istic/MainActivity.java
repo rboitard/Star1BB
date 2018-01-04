@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(Tag,dataBase.allTableNames().toString());
         String url = "https://data.explore.star.fr/explore/dataset/tco-busmetro-horaires-gtfs-versions-td/download/?format=json&timezone=Europe/Berlin";
 
-        makeJsonArraygRequest(url);
+       // makeJsonArraygRequest(url);
         TestBDD();
     }
 

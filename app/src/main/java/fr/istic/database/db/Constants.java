@@ -19,13 +19,13 @@ public class Constants implements StarContract {
             BusRoutes.BusRouteColumns.COLOR+" TEXT, "+
             BusRoutes.BusRouteColumns.TEXT_COLOR+" TEXT );";
 
-    public static final String DATABASE_CREATE_TABLE_TIPS = "CREATE TABLE IF NOT EXISTS "+ Trips.CONTENT_PATH +
+    public static final String DATABASE_CREATE_TABLE_TRIPS = "CREATE TABLE IF NOT EXISTS "+ Trips.CONTENT_PATH +
             "( _ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT , "+
             Trips.TripColumns.ROUTE_ID+" INTEGER ,"+
             Trips.TripColumns.SERVICE_ID+" INTEGER,"+
             Trips.TripColumns.HEADSIGN+" TEXT,"+
             Trips.TripColumns.DIRECTION_ID+" INTEGER,"+
-            Trips.TripColumns.BLOCK_ID+" INTEGER,"+
+            Trips.TripColumns.BLOCK_ID+" TEXT,"+
             Trips.TripColumns.WHEELCHAIR_ACCESSIBLE+" TEXT );";
 
 

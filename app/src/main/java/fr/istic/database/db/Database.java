@@ -26,7 +26,7 @@ public class Database extends SQLiteOpenHelper  {
 
 
     private SQLiteDatabase db;
-    private static final int DATA_BASE_VERSION = 4;
+    private static final int DATA_BASE_VERSION = 6;
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATA_BASE_VERSION);
@@ -39,7 +39,7 @@ public class Database extends SQLiteOpenHelper  {
         db.execSQL(Constants.DATABASE_CREATE_TABLE_CALENDAR);
         db.execSQL(Constants.DATABASE_CREATE_TABLE_STOP_TIMES);
         db.execSQL(Constants.DATABASE_CREATE_TABLE_STOPS);
-        db.execSQL(Constants.DATABASE_CREATE_TABLE_TIPS);
+        db.execSQL(Constants.DATABASE_CREATE_TABLE_TRIPS);
     }
 
     @Override
@@ -211,11 +211,11 @@ public class Database extends SQLiteOpenHelper  {
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 Trips trips = new Trips(Integer.valueOf(cursor.getString(0)),
-                        Integer.valueOf(cursor.getString(1)),
-                        Integer.valueOf(cursor.getString(2)),
+                        getInteger(cursor.getString(1)),
+                        getInteger(cursor.getString(2)),
                         cursor.getString(3),
-                        Integer.valueOf(cursor.getString(4)),
-                        Integer.valueOf(cursor.getString(5)),
+                        getInteger(cursor.getString(4)),
+                        cursor.getString(5),
                         cursor.getString(6));
 
                 list.add(trips);
@@ -247,6 +247,15 @@ public class Database extends SQLiteOpenHelper  {
         db.delete(Constants.StopTimes.CONTENT_PATH, null, null);
         db.delete(Constants.Trips.CONTENT_PATH, null, null);
 
+    }
+
+    private static Integer getInteger(String str) {
+        if (str == null) {
+            return new Integer(0);
+        } else {
+
+            return Integer.parseInt(str);
+        }
     }
 
 
