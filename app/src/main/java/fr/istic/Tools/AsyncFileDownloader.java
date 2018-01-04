@@ -326,7 +326,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
              int serviceId;
              String headSign;
              int directionId;
-             int blockId;
+             String blockId;
              String wheelchairAccessible;
 
             while ((line = br.readLine()) != null) {
@@ -337,7 +337,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
                     serviceId = Integer.valueOf(result[1].substring(1,result[1].length()-1));
                     headSign = result[3].substring(1,result[3].length()-1);
                     directionId = Integer.valueOf(result[5].substring(1,result[5].length()-1));
-                    blockId = Integer.valueOf(result[6].substring(1,result[6].length()-1));
+                    blockId = result[6].substring(1,result[6].length()-1);
                     wheelchairAccessible = result[8].substring(1,result[8].length()-1);
                     Trips trips = new Trips(RouteId, serviceId, headSign, directionId,blockId,wheelchairAccessible );
                     dataBase.insertTrips(trips);
