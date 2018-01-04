@@ -109,8 +109,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
         insertionTableCalendar(calendar);
         insertionStop(stops);
         insertionStopTimes(stopeTimes);
-       // insertionTips(trips);
-        Log.i(Tag,"test2");
+        insertionTips(trips);
 
     }
 
