@@ -105,11 +105,11 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
 
     @Override
     protected void onPostExecute(String message) {
-        insertionTableBusRoute(routes);
+        /*insertionTableBusRoute(routes);
         insertionTableCalendar(calendar);
         insertionStop(stops);
         insertionStopTimes(stopeTimes);
-        insertionTips(trips);
+        insertionTips(trips);*/
 
     }
 
