@@ -42,7 +42,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
     private String trips;
     private Context context;
     private Database dataBase;
-    private String Tag = this.getClass().getName();
+    private String Tag = "AsyncFileDownloader";
 
 
     public AsyncFileDownloader(Context context)
@@ -105,11 +105,13 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
 
     @Override
     protected void onPostExecute(String message) {
-        /*insertionTableBusRoute(routes);
+        Log.i(Tag,"start of loading data");
+        insertionTableBusRoute(routes);
         insertionTableCalendar(calendar);
         insertionStop(stops);
         insertionStopTimes(stopeTimes);
-        insertionTips(trips);*/
+        insertionTips(trips);
+        Log.i(Tag,"end of loading data");
 
     }
 
@@ -170,6 +172,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
              Boolean start = false;
+             int routeId;
              String shortName;
              String longName;
              String description;
@@ -181,14 +184,14 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
                 if(start)
                 {
                     String result[] = line.split(",");
+                    routeId = Integer.valueOf(result[0].substring(1,result[0].length()-1));
                     shortName = result[2].substring(1,result[2].length()-1);
                     longName = result[3].substring(1,result[3].length()-1);
                     description = result[4].substring(1,result[4].length()-1);
                     type = result[5].substring(1,result[5].length()-1);
                     color = result[7].substring(1,result[7].length()-1);
                     textColor = result[8].substring(1,result[8].length()-1);
-                    BusRoute busRoute = new BusRoute(shortName,longName,description,type,color,textColor);
-                    Log.i(Tag,busRoute.toString());
+                    BusRoute busRoute = new BusRoute(routeId,shortName,longName,description,type,color,textColor);
                     this.dataBase.insertBusRoutes(busRoute);
 
                 }
