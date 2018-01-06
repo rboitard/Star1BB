@@ -21,6 +21,7 @@ public interface StarContract {
         String CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.fr.istic.starproviderBB.busroute";
         interface BusRouteColumns extends BaseColumns {
+            String ROUTE_ID = "route_id";
             String SHORT_NAME = "route_short_name";
             String LONG_NAME = "route_long_name";
             String DESCRIPTION = "route_desc";
