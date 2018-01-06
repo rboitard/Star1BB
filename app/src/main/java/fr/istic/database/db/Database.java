@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,8 @@ public class Database extends SQLiteOpenHelper  {
 
 
     private SQLiteDatabase db;
-    private static final int DATA_BASE_VERSION = 6;
+    private static final int DATA_BASE_VERSION = 7;
+    String Tag ="Database" ;
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATA_BASE_VERSION);
@@ -127,12 +129,13 @@ public class Database extends SQLiteOpenHelper  {
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 BusRoute busRoute = new BusRoute(Integer.valueOf(cursor.getString(0)),
-                        cursor.getString(1),
+                        Integer.valueOf(cursor.getString(1)),
                         cursor.getString(2),
                         cursor.getString(3),
                         cursor.getString(4),
                         cursor.getString(5),
-                        cursor.getString(6));
+                        cursor.getString(6),
+                        cursor.getString(7));
                 list.add(busRoute);
                 cursor.moveToNext();
             }
@@ -241,11 +244,19 @@ public class Database extends SQLiteOpenHelper  {
 
     public void deleteAllContents()
     {
-        db.delete(Constants.BusRoutes.CONTENT_PATH, null, null);
-        db.delete(Constants.Calendar.CONTENT_PATH, null, null);
-        db.delete(Constants.Stops.CONTENT_PATH, null, null);
-        db.delete(Constants.StopTimes.CONTENT_PATH, null, null);
-        db.delete(Constants.Trips.CONTENT_PATH, null, null);
+
+        Log.i(Tag,"start of deleting all contents from tables\n");
+        int busRout = db.delete(Constants.BusRoutes.CONTENT_PATH, "1", null);
+        Log.i(Tag,busRout+" is deleted from  busRout Table\n");
+        int calendar = db.delete(Constants.Calendar.CONTENT_PATH, "1", null);
+        Log.i(Tag,calendar+" is deleted from  calendar Table\n");
+        int stops = db.delete(Constants.Stops.CONTENT_PATH, "1", null);
+        Log.i(Tag,stops+" is deleted from  stops Table\n");
+        int stopTimes = db.delete(Constants.StopTimes.CONTENT_PATH, "1", null);
+        Log.i(Tag,stopTimes+" is deleted from  stopTimes Table\n");
+        int trips = db.delete(Constants.Trips.CONTENT_PATH, "1", null);
+        Log.i(Tag,trips+" is deleted from  trips Table\n");
+        Log.i(Tag,"end of deleting all contents from tables\n");
 
     }
 
