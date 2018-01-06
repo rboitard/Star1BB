@@ -7,6 +7,7 @@ package fr.istic.database.modelTables;
 public class BusRoute {
 
     private String shortName;
+    private int route_id;
     private String longName;
     private String description;
     private String type;
@@ -14,16 +15,17 @@ public class BusRoute {
     private  String textColor;
     private  int _ID;
 
-    public BusRoute(String shortName, String longName, String description, String type, String color, String textColor) {
+    public BusRoute(int route_id,String shortName, String longName, String description, String type, String color, String textColor) {
         this.shortName = shortName;
         this.longName = longName;
         this.description = description;
         this.type = type;
         this.color = color;
         this.textColor = textColor;
+        this.route_id = route_id;
     }
 
-    public BusRoute(int id, String shortName, String longName, String description, String type, String color, String textColor) {
+    public BusRoute(int id,int route_id, String shortName, String longName, String description, String type, String color, String textColor) {
         this.shortName = shortName;
         this.longName = longName;
         this.description = description;
@@ -31,6 +33,7 @@ public class BusRoute {
         this.color = color;
         this.textColor = textColor;
         this._ID = id;
+        this.route_id = route_id;
     }
 
     public int get_ID() {
@@ -87,6 +90,14 @@ public class BusRoute {
 
     public void setTextColor(String textColor) {
         this.textColor = textColor;
+    }
+
+    public int getRoute_id() {
+        return route_id;
+    }
+
+    public void setRoute_id(int route_id) {
+        this.route_id = route_id;
     }
 
     @Override

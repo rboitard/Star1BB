@@ -12,6 +12,7 @@ public class Constants implements StarContract {
     public static final String DATABASE_NAME ="bus_hours";
     public static final String DATABASE_CREATE_TABLE_BUS_ROUTE = "CREATE TABLE IF NOT EXISTS "+ StarContract.BusRoutes.CONTENT_PATH +
             "( _ID INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT , "+
+            BusRoutes.BusRouteColumns.ROUTE_ID + " INTEGER , "+
             BusRoutes.BusRouteColumns.SHORT_NAME + " TEXT , "+
             BusRoutes.BusRouteColumns.LONG_NAME+" TEXT, "+
             BusRoutes.BusRouteColumns.DESCRIPTION+" TEXT, "+
