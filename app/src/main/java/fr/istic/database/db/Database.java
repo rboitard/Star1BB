@@ -59,6 +59,7 @@ public class Database extends SQLiteOpenHelper  {
     {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(StarContract.BusRoutes.BusRouteColumns.ROUTE_ID, busRoutes.getRoute_id());
         values.put(StarContract.BusRoutes.BusRouteColumns.SHORT_NAME, busRoutes.getShortName());
         values.put(StarContract.BusRoutes.BusRouteColumns.LONG_NAME, busRoutes.getLongName());
         values.put(StarContract.BusRoutes.BusRouteColumns.DESCRIPTION, busRoutes.getDescription());
