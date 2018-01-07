@@ -1,12 +1,14 @@
 package fr.istic;
 
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -17,38 +19,48 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 import fr.istic.Tools.AsyncFileDownloader;
 import fr.istic.Tools.MySingleton;
-import fr.istic.contrat.StarContract;
 import fr.istic.database.db.Database;
-import fr.istic.database.modelTables.BusRoute;
+import fr.istic.service.MyService;
 
 public class MainActivity extends AppCompatActivity {
 
     private String Tag = this.getClass().getName();
     private Context context = this;
     private Database dataBase;
-    private ProgressDialog pDialog;
+    private ProgressBar progressBar;
+    private TextView textView;
+    private boolean downloadingComplete ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dataBase = new Database(context);
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Downloading...");
-        pDialog.setCancelable(false);
-        initialize();
-        TestBDD();
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        textView = (TextView) findViewById(R.id.text_view_progress_bar);
+        downloadingComplete = false;
+        progressBar.setIndeterminate(true);
+       initialize();
+       CreatService();
     }
 
+
+
+
+    public void CreatService()
+    {
+        Intent intent = new Intent(this, MyService.class);
+        startService(intent);
+    }
     public void initialize()
     {
         if(isNetworkAValable())
         {
             dataBase.deleteAllContents();
+            textView.setText(" Downloading.... ");
             Log.i(Tag,dataBase.allTableNames().toString());
             String url = "https://data.explore.star.fr/explore/dataset/tco-busmetro-horaires-gtfs-versions-td/download/?format=json&timezone=Europe/Berlin";
             makeJsonArraygRequest(url);
@@ -91,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        AsyncFileDownloader downloader = new AsyncFileDownloader(context);
+        AsyncFileDownloader downloader = new AsyncFileDownloader(context, progressBar, textView, downloadingComplete);
         downloader.execute(URL);
     }
 
@@ -110,35 +122,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return isAvailable;
     }
-
-    public void TestBDD()
-    {
-
-        List<BusRoute> list1 = dataBase.getContentsBusRouteTable(" SELECT * FROM "+ StarContract.BusRoutes.CONTENT_PATH);
-        /*List<Calendar> list2 = dataBase.getContentsCalendarTable(" SELECT * FROM "+ StarContract.Calendar.CONTENT_PATH);
-        List<Stops> list3 = dataBase.getContentsStopsTable(" SELECT * FROM "+ StarContract.Stops.CONTENT_PATH);
-        List<StopTimes> list4 = dataBase.getContentsStopTimesTable(" SELECT * FROM "+ StarContract.StopTimes.CONTENT_PATH);
-        List<Trips> list5 = dataBase.getContentsTripsTable(" SELECT * FROM "+ StarContract.Trips.CONTENT_PATH);*/
-        Log.i(Tag,"size table Bus Route :  "+list1.size()+"\n");
-       /* Log.i(Tag,"size table Calendar :  "+list2.size()+"\n");
-        Log.i(Tag,"size table Stops :  "+list3.size()+"\n");
-        Log.i(Tag,"size table Stop times : "+list4.size()+"\n");
-        Log.i(Tag,"size Trips : "+list5.size()+"\n");*/
-    }
-
-    /**
-     * méthodes pour gérer  la fenêtre qui affiche la progression de la synchronisation
-     */
-    /*private void showProgressDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-    private void hideProgressDialog() {
-        if (pDialog.isShowing())
-            pDialog.hide();
-    }*/
-
-
-
 
 }

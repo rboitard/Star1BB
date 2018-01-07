@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -17,6 +20,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -26,6 +31,7 @@ import fr.istic.database.modelTables.Calendar;
 import fr.istic.database.modelTables.StopTimes;
 import fr.istic.database.modelTables.Stops;
 import fr.istic.database.modelTables.Trips;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -43,12 +49,18 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
     private Context context;
     private Database dataBase;
     private String Tag = "AsyncFileDownloader";
+    private ProgressBar progressBar;
+    private TextView textView;
+    boolean downloadingComplete;
 
 
-    public AsyncFileDownloader(Context context)
+    public AsyncFileDownloader(Context context, ProgressBar progressBar, TextView textView, boolean downloadingComplete)
     {
         this.context = context;
         this.dataBase = new Database(context);
+        this.textView = textView;
+        this.progressBar = progressBar;
+        this.downloadingComplete = downloadingComplete;
     }
     @Override
     protected String doInBackground(String... params) {
@@ -109,10 +121,10 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
         insertionTableBusRoute(routes);
         insertionTableCalendar(calendar);
         insertionStop(stops);
-        insertionStopTimes(stopeTimes);
+        //insertionStopTimes(stopeTimes);
         insertionTips(trips);
+        hideProgressBar();
         Log.i(Tag,"end of loading data");
-
     }
 
     public void unzip(String zipFile) throws IOException {
@@ -286,6 +298,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
 
     private String insertionStopTimes(String path){
         File file = new File(path);
+        List<StopTimes> stopTimesList = new ArrayList();
         StringBuilder text = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -307,7 +320,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
                     stopId = Integer.valueOf(result[3].substring(1,result[3].length()-1));
                     stopSequence = result[4].substring(1,result[4].length()-1);
                     StopTimes stopeTimes = new StopTimes(tripId, arrivalTime, departureTme, stopId,stopSequence );
-                    dataBase.insertStopTimes(stopeTimes);
+                    stopTimesList.add(stopeTimes);
                 }
                 start = true;
             }
@@ -315,10 +328,13 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
         }
         catch (IOException e) {
         }
+        Log.i(Tag,"size Trips : "+stopTimesList.size()+"\n");
+        dataBase.insertMultipleLigneStopTime(stopTimesList);
         return text.toString();
     }
 
     private String insertionTips(String path){
+        List<Trips> tripsList = new ArrayList();
         File file = new File(path);
         StringBuilder text = new StringBuilder();
         try {
@@ -343,7 +359,7 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
                     blockId = result[6].substring(1,result[6].length()-1);
                     wheelchairAccessible = result[8].substring(1,result[8].length()-1);
                     Trips trips = new Trips(RouteId, serviceId, headSign, directionId,blockId,wheelchairAccessible );
-                    dataBase.insertTrips(trips);
+                    tripsList.add(trips);
                 }
                 start = true;
             }
@@ -351,8 +367,20 @@ public class AsyncFileDownloader extends AsyncTask<String, Context, String> {
         }
         catch (IOException e) {
         }
+        dataBase.insertMultipleLigneTrip(tripsList);
+
         return text.toString();
     }
+
+
+    public void hideProgressBar()
+    {
+        downloadingComplete = true;
+        progressBar.setVisibility(View.GONE);
+        textView.setText("Download complete");
+    }
+
+
 
 
 

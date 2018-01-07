@@ -69,7 +69,7 @@ public class Database extends SQLiteOpenHelper  {
         db.insert(StarContract.BusRoutes.CONTENT_PATH,null, values);
     }
 
-   
+
 
     public void insertTrips(fr.istic.database.modelTables.Trips trips)
     {
@@ -269,6 +269,111 @@ public class Database extends SQLiteOpenHelper  {
         } else {
 
             return Integer.parseInt(str);
+        }
+    }
+
+    public void insertMultipleLigneStopTime( List<StopTimes> StopTimesList)
+    {
+        String request;
+        String  res = "INSERT INTO " + StarContract.StopTimes.CONTENT_PATH +
+                "  ( " + StarContract.StopTimes.StopTimeColumns.TRIP_ID + ", " +
+                StarContract.StopTimes.StopTimeColumns.ARRIVAL_TIME + ", " +
+                StarContract.StopTimes.StopTimeColumns.DEPARTURE_TIME + ", " +
+                StarContract.StopTimes.StopTimeColumns.STOP_ID + ", " +
+                StarContract.StopTimes.StopTimeColumns.STOP_SEQUENCE+ " ) VALUES ";
+        int k =0;
+        Log.i(Tag+"k", StopTimesList.size()+" size");
+        while(k< StopTimesList.size())
+        {
+
+            request = res;
+            for(int i = k; i< k+100 && (k+100< StopTimesList.size()); i++ )
+            {
+                request +=  " (" + StopTimesList.get(i).getTripId() + ", " +
+                        StopTimesList.get(i).getArrivalTime() + ", '" +
+                        StopTimesList.get(i).getDepartureTime() + "', " +
+                        StopTimesList.get(i).getStopId() + ", '" +
+                        StopTimesList.get(i).getStopSequence().replace("-","")  + "' ), " ;
+            }
+            k+= 100;
+            request = request.substring(0, request.length()-2);
+            request+=";";
+            if(k+100< StopTimesList.size())
+            {
+                Log.i(Tag, request);
+                db.execSQL(request);
+            }
+
+        }
+        k -=100;
+        for(int i = k; i< StopTimesList.size(); i++ )
+        {
+            request  = "INSERT INTO " + StarContract.StopTimes.CONTENT_PATH +
+                    "  ( " + StarContract.StopTimes.StopTimeColumns.TRIP_ID + ", " +
+                    StarContract.StopTimes.StopTimeColumns.ARRIVAL_TIME + ", " +
+                    StarContract.StopTimes.StopTimeColumns.DEPARTURE_TIME + ", " +
+                    StarContract.StopTimes.StopTimeColumns.STOP_ID + ", " +
+                    StarContract.StopTimes.StopTimeColumns.STOP_SEQUENCE+ " ) VALUES "
+                    +" (" + StopTimesList.get(i).getTripId() + ", " +
+                    StopTimesList.get(i).getArrivalTime() + ", '" +
+                    StopTimesList.get(i).getDepartureTime() + "', " +
+                    StopTimesList.get(i).getStopId() + ", '" +
+                    StopTimesList.get(i).getStopSequence().replace("-","")  + "' ); " ;
+            db.execSQL(request);
+        }
+    }
+
+    public void insertMultipleLigneTrip( List<Trips> tripsList)
+    {
+        String request;
+        String  res = "INSERT INTO " + StarContract.Trips.CONTENT_PATH +
+                "  ( " + StarContract.Trips.TripColumns.ROUTE_ID + ", " +
+                StarContract.Trips.TripColumns.SERVICE_ID + ", " +
+                StarContract.Trips.TripColumns.HEADSIGN + ", " +
+                StarContract.Trips.TripColumns.DIRECTION_ID + ", " +
+                StarContract.Trips.TripColumns.BLOCK_ID + ", " +
+                StarContract.Trips.TripColumns.WHEELCHAIR_ACCESSIBLE + " ) VALUES ";
+        int k =0;
+        while(k< tripsList.size())
+        {
+
+            request = res;
+            for(int i = k; i< k+200 && (k+200< tripsList.size()); i++ )
+            {
+                request +=  " (" + tripsList.get(i).getRouteId() + ", " +
+                        tripsList.get(i).getServiceId() + ", '" +
+                        tripsList.get(i).getHeadSign().replace(" ","").replaceAll("'","_") + "', " +
+                        tripsList.get(i).getDirectionId() + ", '" +
+                        tripsList.get(i).getBlockId().replace("-","") + "', '" +
+                        tripsList.get(i).getWheelchairAccessible() + "' ), " ;
+            }
+            k+= 200;
+            request = request.substring(0, request.length()-2);
+            request+=";";
+            if(k+200< tripsList.size())
+            {
+                Log.i(Tag, request);
+                db.execSQL(request);
+            }
+
+        }
+        k -=200;
+        for(int i = k; i< tripsList.size(); i++ )
+        {
+            request  = "INSERT INTO " + StarContract.Trips.CONTENT_PATH +
+                    "  ( " + StarContract.Trips.TripColumns.ROUTE_ID + ", " +
+                    StarContract.Trips.TripColumns.SERVICE_ID + ", " +
+                    StarContract.Trips.TripColumns.HEADSIGN + ", " +
+                    StarContract.Trips.TripColumns.DIRECTION_ID + ", " +
+                    StarContract.Trips.TripColumns.BLOCK_ID + ", " +
+                    StarContract.Trips.TripColumns.WHEELCHAIR_ACCESSIBLE + " )" +
+                    " VALUES (" + tripsList.get(i).getRouteId() + ", " +
+                    tripsList.get(i).getServiceId() + ", '" +
+                    tripsList.get(i).getHeadSign().replace(" ","").replaceAll("'","_") + "', " +
+                    tripsList.get(i).getDirectionId() + ", '" +
+                    tripsList.get(i).getBlockId().replace("-","") + "', '" +
+                    tripsList.get(i).getWheelchairAccessible() + "' ); " ;
+            db.execSQL(request);
         }
     }
 
