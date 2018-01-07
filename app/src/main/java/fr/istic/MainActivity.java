@@ -107,10 +107,7 @@ public class MainActivity extends AppCompatActivity {
         downloader.execute(URL);
     }
 
-    /**
-     * pemet de vérifier s'il y a une connexion internet
-     * @return un boolean
-     */
+   
     public boolean isNetworkAValable()
     {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
