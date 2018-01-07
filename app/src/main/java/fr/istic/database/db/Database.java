@@ -69,11 +69,13 @@ public class Database extends SQLiteOpenHelper  {
         db.insert(StarContract.BusRoutes.CONTENT_PATH,null, values);
     }
 
+   
+
     public void insertTrips(fr.istic.database.modelTables.Trips trips)
     {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(StarContract.Trips.TripColumns.BLOCK_ID, trips.getBlockId() );
+        values.put(StarContract.Trips.TripColumns.ROUTE_ID, trips.getRouteId() );
         values.put(StarContract.Trips.TripColumns.SERVICE_ID, trips.getServiceId() );
         values.put(StarContract.Trips.TripColumns.HEADSIGN, trips.getHeadSign() );
         values.put(StarContract.Trips.TripColumns.DIRECTION_ID, trips.getDirectionId() );

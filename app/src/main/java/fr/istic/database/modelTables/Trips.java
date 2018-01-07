@@ -15,7 +15,7 @@ public class Trips {
     private  int _ID;
 
     public Trips( int routeId, int serviceId, String headSign, int directionId, String  blockId, String wheelchairAccessible) {
-        RouteId = routeId;
+        this.RouteId = routeId;
         this.serviceId = serviceId;
         this.headSign = headSign;
         this.directionId = directionId;
@@ -24,7 +24,7 @@ public class Trips {
     }
 
     public Trips(int _ID, int routeId, int serviceId, String headSign, int directionId, String blockId, String wheelchairAccessible) {
-        RouteId = routeId;
+        this.RouteId = routeId;
         this.serviceId = serviceId;
         this.headSign = headSign;
         this.directionId = directionId;
